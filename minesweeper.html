@@ -18,8 +18,10 @@
 
             const HEIGHT = 8;
             const WIDTH = 8;
-            const mineAmount = 10;
+            const MINE_AMNT = 10;
             const STEPS = [[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]]
+            const WIN_AWARD_IMG = "https://i.pinimg.com/originals/bf/1c/d5/bf1cd55d49e5b484f75ddcac276f8601.png" 
+            const GG_AWARD_IMG = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/7dc3e7b7-8027-4451-8615-6fcc1e4a9db5/dechwiv-8e677b00-9fab-4e18-9c23-7ccddba11ed4.jpg/v1/fill/w_1024,h_1034,q_75,strp/sakura_matou_bbw__cm__by_dakotah9_dechwiv-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTAzNCIsInBhdGgiOiJcL2ZcLzdkYzNlN2I3LTgwMjctNDQ1MS04NjE1LTZmY2MxZTRhOWRiNVwvZGVjaHdpdi04ZTY3N2IwMC05ZmFiLTRlMTgtOWMyMy03Y2NkZGJhMTFlZDQuanBnIiwid2lkdGgiOiI8PTEwMjQifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.Cfl02EnUuJ4uOZa_J5tXhJpI6GdN62TFCoFI6-a06O4"
             let cellElm = [];
             let boardElm;
             let startBtn;
@@ -41,17 +43,24 @@
                 return res;
             }
 
+            function showAward(url)
+            {
+                document.body.removeChild(boardElm);
+                let img = document.createElement("img")
+                img.src = url;
+                document.body.appendChild(img);
+            }
+
             function gameOver()
             {
                 window.alert("GG");
-
+                showAward(GG_AWARD_IMG);
             }
 
             function win()
             {
-                window.alert("Win!");
-                let pic = 
-                document.body.appendChild()
+                window.alert("Clear!");
+                showAward(WIN_AWARD_IMG);
             }
 
             function openArea(i, j)
@@ -93,7 +102,7 @@
                         else
                         {
                             openArea(i,j);
-                            if (opendCnt == HEIGHT*WIDTH-mineAmount)
+                            if (opendCnt == HEIGHT*WIDTH-MINE_AMNT)
                                 win();
                         }
                     }
@@ -107,7 +116,7 @@
 
             function genGameStatus()
             {
-                let cnt = mineAmount;
+                let cnt = MINE_AMNT;
                 for (let i=0; i<HEIGHT; i++)
                 {
                     isMine[i] = new Array(WIDTH),    isMine[i].fill(0);
@@ -155,19 +164,6 @@
                 genGameStatus();
                 createGameElm();
             }
-
-            function startMenu()
-            {
-                if (firstRun)
-                {
-                    startBtn = document.createElement("input")
-                }
-                else
-                {
-                    document.body.removeChild(boardElm);
-                }
-                document.body.appendChild()
-            }   
         </script>
     </head>
     <body>
