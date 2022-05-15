@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<style>
+    td
+    {
+        border-width: 4px;
+        border-color: black;
+        border-style: solid;
+        width: 48px;
+        height: 48px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: 48px;
+        text-align: center;
+    }    
+</style>
+<html>
+    <head>
+        <script>
+
+            const HEIGHT = 8;
+            const WIDTH = 8;
+            const mineAmount = 10;
+            const STEPS = [[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]]
+            let cellElm = [];
+            let boardElm;
+            let startBtn;
+            let isMine = [];
+            let isFlagged = [];
+            let isOpened = [];
+            let opendCnt = 0;
+
+            function mineAround(i,j)
+            {
+                let res = 0;
+                for (let k=0; k<STEPS.length; k++)
+                {
+                    let ni = i+STEPS[k][0];
+                    let nj = j+STEPS[k][1];
+                    if (0<=ni && ni<HEIGHT && 0<=nj && nj<WIDTH)
+                        res += isMine[ni][nj];
+                }
+                return res;
+            }
+
+            function gameOver()
+            {
+                window.alert("GG");
+
+            }
+
+            function win()
+            {
+                window.alert("Win!");
+                let pic = 
+                document.body.appendChild()
+            }
+
+            function openArea(i, j)
+            {
+                isOpened[i][j] = 1;
+                opendCnt++;
+                cellElm[i][j].innerHTML = mineAround(i,j)? mineAround(i,j) : ' '
+                if (mineAround(i,j) == 0)
+                {
+                    for (let k=0; k<STEPS.length; k++)
+                    {
+                        let ni = i+STEPS[k][0];
+                        let nj = j+STEPS[k][1];
+                        if (0<=ni && ni<HEIGHT && 0<=nj && nj<WIDTH
+                            && !isOpened[ni][nj] && !isFlagged[ni][nj])
+                        {
+                            openArea(ni,nj);
+                        }
+                    }
+                }
+            }
+
+            function cellOnclickFactory(i, j)
+            {
+                return function(e)
+                {
+                    if (isOpened[i][j]) return
+                    let clickType = e.which;
+                    if (clickType == 1)
+                    {
+                        if (isFlagged[i][j])
+                        {
+                            return;
+                        }
+                        if (isMine[i][j])
+                        {
+                            gameOver();
+                        }
+                        else
+                        {
+                            openArea(i,j);
+                            if (opendCnt == HEIGHT*WIDTH-mineAmount)
+                                win();
+                        }
+                    }
+                    else if (clickType == 2)
+                    {
+                        isFlagged[i][j] ^= 1;
+                        cellElm[i][j].innerHTML = isFlagged[i][j]? 'P':'X'
+                    }
+                }
+            }
+
+            function genGameStatus()
+            {
+                let cnt = mineAmount;
+                for (let i=0; i<HEIGHT; i++)
+                {
+                    isMine[i] = new Array(WIDTH),    isMine[i].fill(0);
+                    isFlagged[i] = new Array(WIDTH), isFlagged[i].fill(0,0,WIDTH)
+                    isOpened[i] = new Array(WIDTH),  isOpened[i].fill(0,0,WIDTH)
+                }
+                for (let i=0; i<HEIGHT; i++)
+                while (cnt > 0)
+                {
+                    let i = Math.floor(Math.random()*HEIGHT);
+                    let j = Math.floor(Math.random()*WIDTH);
+                    if (!isMine[i][j])
+                    {
+                        isMine[i][j] = 1;
+                        cnt--;
+                    }
+                }
+                console.log(isMine)
+            }
+
+            function createGameElm()
+            {
+                boardElm = document.createElement("div");
+                boardElm.innerHTML = "";
+                document.body.appendChild(boardElm);
+                tbl = document.createElement("table");
+                boardElm.appendChild(tbl);
+                for (let i=0; i<HEIGHT; i++)
+                {
+                    let row = document.createElement("tr");
+                    tbl.appendChild(row);
+                    cellElm[i] = []
+                    for (let j=0; j<WIDTH; j++)
+                    {
+                        cellElm[i][j] = document.createElement("td");
+                        cellElm[i][j].innerHTML = "X";
+                        cellElm[i][j].onclick = cellOnclickFactory(i,j);
+                        row.appendChild(cellElm[i][j]);
+                    }
+                }
+            }
+
+            function run()
+            {
+                genGameStatus();
+                createGameElm();
+            }
+
+            function startMenu()
+            {
+                if (firstRun)
+                {
+                    startBtn = document.createElement("input")
+                }
+                else
+                {
+                    document.body.removeChild(boardElm);
+                }
+                document.body.appendChild()
+            }   
+        </script>
+    </head>
+    <body>
+        <script>
+            run();
+        </script>
+    </body>
+</html>
