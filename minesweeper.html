@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <style>
+    p
+    {
+        font-size: x-large;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
     td
     {
         border-width: 4px;
         border-color: black;
         border-style: solid;
-        width: 48px;
-        height: 48px;
+        width: 36px;
+        height: 36px;
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        font-size: 48px;
+        font-size: 36px;
         text-align: center;
     }    
 </style>
@@ -29,6 +34,8 @@
             let isFlagged = [];
             let isOpened = [];
             let opendCnt = 0;
+            let flagCnt = 0;
+            let flagRemainElm;
 
             function mineAround(i,j)
             {
@@ -83,6 +90,14 @@
                 }
             }
 
+            function flipFlag(i,j)
+            {
+                isFlagged[i][j] ^= 1;
+                cellElm[i][j].innerHTML = isFlagged[i][j]? 'P':'X';
+                flagCnt++;
+                flagRemainElm.innerHTML = "Flag: " + (MINE_AMNT - flagCnt);
+            }
+
             function cellOnclickFactory(i, j)
             {
                 return function(e)
@@ -108,8 +123,7 @@
                     }
                     else if (clickType == 2)
                     {
-                        isFlagged[i][j] ^= 1;
-                        cellElm[i][j].innerHTML = isFlagged[i][j]? 'P':'X'
+                        flipFlag(i,j)
                     }
                 }
             }
@@ -139,9 +153,17 @@
 
             function createGameElm()
             {
+                let center = document.createElement("center");
+                document.body.appendChild(center);
+
+                flagRemainElm = document.createElement("p");
+                flagRemainElm.innerHTML = "Flag: " + MINE_AMNT;
+                center.appendChild(flagRemainElm);
+
                 boardElm = document.createElement("div");
                 boardElm.innerHTML = "";
-                document.body.appendChild(boardElm);
+                center.appendChild(boardElm);
+
                 tbl = document.createElement("table");
                 boardElm.appendChild(tbl);
                 for (let i=0; i<HEIGHT; i++)
