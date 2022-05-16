@@ -36,6 +36,7 @@
             let opendCnt = 0;
             let flagCnt = 0;
             let flagRemainElm;
+            let centerElm;
 
             function mineAround(i,j)
             {
@@ -52,10 +53,10 @@
 
             function showAward(url)
             {
-                document.body.removeChild(boardElm);
+                centerElm.removeChild(boardElm);
                 let img = document.createElement("img")
                 img.src = url;
-                document.body.appendChild(img);
+                centerElm.appendChild(img);
             }
 
             function gameOver()
@@ -153,16 +154,16 @@
 
             function createGameElm()
             {
-                let center = document.createElement("center");
-                document.body.appendChild(center);
+                centerElm = document.createElement("center");
+                document.body.appendChild(centerElm);
 
                 flagRemainElm = document.createElement("p");
                 flagRemainElm.innerHTML = "Flag: " + MINE_AMNT;
-                center.appendChild(flagRemainElm);
+                centerElm.appendChild(flagRemainElm);
 
                 boardElm = document.createElement("div");
                 boardElm.innerHTML = "";
-                center.appendChild(boardElm);
+                centerElm.appendChild(boardElm);
 
                 tbl = document.createElement("table");
                 boardElm.appendChild(tbl);
